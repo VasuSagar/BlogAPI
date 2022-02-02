@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,9 +35,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getAllPosts(int pageNo, int pageSize) {
+    public PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
+        //create Sort object
+        Sort sort=createSortObject(sortDir,sortBy);
+
         //create pagable instance
-        Pageable pageable= PageRequest.of(pageNo,pageSize);
+        Pageable pageable= PageRequest.of(pageNo,pageSize, sort);
 
         Page<Post> posts=postRepository.findAll(pageable);
 
@@ -48,6 +52,19 @@ public class PostServiceImpl implements PostService {
         //create PostResponse from postDto
         return mapTOPagablePostResponse(postDtos,posts);
 
+    }
+
+    private Sort createSortObject(String sortDir, String sortBy) {
+        Sort sort;
+        if(sortDir.equalsIgnoreCase("asc")){
+            sort=Sort.by(sortBy).ascending();
+        }
+        else if(sortDir.equalsIgnoreCase("desc")){
+            sort=Sort.by(sortBy).descending();
+        }
+        else
+            throw new IllegalArgumentException("Specify sort direction correctly");
+        return sort;
     }
 
     private PostResponse mapTOPagablePostResponse(List<PostDto> postDtos, Page<Post> posts) {

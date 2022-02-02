@@ -3,12 +3,11 @@ package com.neon.blog.controller;
 import com.neon.blog.dto.PostDto;
 import com.neon.blog.dto.PostResponse;
 import com.neon.blog.service.PostService;
+import com.neon.blog.utils.AppConstraints;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -22,8 +21,12 @@ public class PostController {
     }
 
     @GetMapping()
-    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNo",defaultValue = "0") int pageNo, @RequestParam(value = "pageSize",defaultValue ="5") int pageSize){
-        return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize),HttpStatus.OK);
+    public ResponseEntity<PostResponse> getAllPosts(
+            @RequestParam(value = "pageNo",defaultValue = AppConstraints.DEFAULT_PAGE_NUMBER) int pageNo,
+            @RequestParam(value = "pageSize",defaultValue =AppConstraints.DEFAULT_PAGE_SIZE) int pageSize,
+            @RequestParam(value = "sortBy",defaultValue = AppConstraints.DEFAULT_SORT_BY) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = AppConstraints.DEFAULT_SORT_DIRECTION)String sortDir){
+        return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize,sortBy,sortDir),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
