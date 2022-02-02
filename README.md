@@ -3,8 +3,8 @@ A simple blog post api made with spring,mysql.Following tutorial by @FadatareRam
 
 # Intro #
 A Blog API with functionalities listed below
-- [ ] Build CRUD REST API for blog
-- [ ] Add Pagination and Sorting
+- [x] Build CRUD REST API for blog
+- [x] Add Pagination and Sorting
 - [ ] Build REST API for login and signup
 - [ ] Add Exception and error handling
 - [ ] REST API Request Validation
