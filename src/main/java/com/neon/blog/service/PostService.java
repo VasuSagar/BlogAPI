@@ -1,13 +1,14 @@
 package com.neon.blog.service;
 
 import com.neon.blog.dto.PostDto;
+import com.neon.blog.dto.PostResponse;
 
 import java.util.List;
 
 public interface PostService {
     PostDto createPost(PostDto postDto);
 
-    List<PostDto> getAllPosts();
+    PostResponse getAllPosts(int pageNo, int pageSize);
 
     PostDto getPostById(Long postId);
 
