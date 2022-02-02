@@ -1,8 +1,10 @@
 package com.neon.blog.service.impl;
 
+import com.neon.blog.dto.CommentDto;
 import com.neon.blog.dto.PostDto;
 import com.neon.blog.dto.PostResponse;
 import com.neon.blog.exception.ResourceNotFoundException;
+import com.neon.blog.model.Comment;
 import com.neon.blog.model.Post;
 import com.neon.blog.repository.PostRepository;
 import com.neon.blog.service.PostService;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,10 +30,10 @@ public class PostServiceImpl implements PostService {
 
         //convert DTO to entity
         Post post=mapToEntity(postDto);
-        Post post1=postRepository.save(post);
+        Post savedPost=postRepository.save(post);
 
         //convert entity to DTO
-        PostDto postDto1=mapToDTO(post1);
+        PostDto postDto1=mapToDTO(savedPost);
         return postDto1;
     }
 
@@ -109,7 +112,21 @@ public class PostServiceImpl implements PostService {
         postDto1.setDescription(post1.getDescription());
         postDto1.setContent(post1.getContent());
         postDto1.setTitle(post1.getTitle());
+
+        Set<Comment> comments= post1.getComments();
+
+        Set<CommentDto> commentDtos=comments.stream().map(comment -> mapCommentToCommentDto(comment)).collect(Collectors.toSet());
+
+        postDto1.setComments(commentDtos);
         return postDto1;
+    }
+
+    private CommentDto mapCommentToCommentDto(Comment comment){
+        CommentDto commentDto=new CommentDto();
+        commentDto.setBody(comment.getBody());
+        commentDto.setId(comment.getId());
+
+        return commentDto;
     }
 
     private Post mapToEntity(PostDto postDto){

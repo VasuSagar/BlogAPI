@@ -35,7 +35,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getAllCommentsByPostId(Long postId) {
+        //get post if no posts exists then throw exception
         findPost(postId);
+
         List<Comment> comments=commentRepository.findByPostId(postId);
         return comments.stream().map(comment -> mapToDTO(comment)).collect(Collectors.toList());
     }
