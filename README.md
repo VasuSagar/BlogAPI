@@ -6,11 +6,12 @@ A Blog API with functionalities listed below
 - [x] Build CRUD REST API for blog
 - [x] Add Pagination and Sorting
 - [ ] Build REST API for login and signup
-- [ ] Add Exception and error handling
-- [ ] REST API Request Validation
+- [x] Add Exception and error handling
+- [x] REST API Request Validation
 - [ ] Add Spring Security and create role based authentication
 - [ ] Use JWT based authentication
 - [ ] Document REST API using swagger
+- [ ] Add Like functionality to Post
 
 # Technologies Used #
 * Java 11 
