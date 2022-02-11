@@ -1,10 +1,12 @@
 package com.neon.blog.service.impl;
 
 import com.neon.blog.dto.CommentDto;
+import com.neon.blog.dto.LikeDto;
 import com.neon.blog.dto.PostDto;
 import com.neon.blog.dto.PostResponse;
 import com.neon.blog.exception.ResourceNotFoundException;
 import com.neon.blog.model.Comment;
+import com.neon.blog.model.Like;
 import com.neon.blog.model.Post;
 import com.neon.blog.repository.PostRepository;
 import com.neon.blog.service.AuthService;
@@ -118,13 +120,31 @@ public class PostServiceImpl implements PostService {
         postDto1.setCreatedDate(post1.getCreatedDate());
         postDto1.setUserName(post1.getUser().getName());
         postDto1.setUserId(post1.getUser().getId());
+        postDto1.setLikesCount(post1.getLikeCount());
+
 
         Set<Comment> comments= post1.getComments();
 
         Set<CommentDto> commentDtos=comments.stream().map(comment -> mapCommentToCommentDto(comment)).collect(Collectors.toSet());
 
         postDto1.setComments(commentDtos);
+
+        Set<Like> likes= post1.getLikes();
+
+        Set<LikeDto> likeDtos=likes.stream().map(like -> mapLikeToLikeDto(like)).collect(Collectors.toSet());
+
+        postDto1.setLikes(likeDtos);
+
+
         return postDto1;
+    }
+
+    private LikeDto mapLikeToLikeDto(Like like) {
+        LikeDto likeDto=new LikeDto();
+        likeDto.setId(like.getId());
+        likeDto.setUserId(like.getUser().getId());
+        likeDto.setUserName(like.getUser().getName());
+        return likeDto;
     }
 
     private CommentDto mapCommentToCommentDto(Comment comment){

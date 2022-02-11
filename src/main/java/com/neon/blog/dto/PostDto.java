@@ -1,5 +1,6 @@
 package com.neon.blog.dto;
 
+import com.neon.blog.model.Like;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +25,12 @@ public class PostDto {
     @Size(min=5,message = "description should have at least 5 characters")
     private String description;
 
-    private Set<CommentDto> comments;
     private Instant createdDate;
     private String userName;
     private Long userId;
+
+    private Set<CommentDto> comments;
+
+    private Integer likesCount;
+    private Set<LikeDto> likes;
 }

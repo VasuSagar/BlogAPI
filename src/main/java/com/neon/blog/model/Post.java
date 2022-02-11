@@ -24,8 +24,12 @@ public class Post {
     @OneToMany(mappedBy ="post",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Comment> comments=new HashSet<>();
 
+    @OneToMany(mappedBy ="post",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Like> likes=new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id",nullable = false)
     private User user;
     private Instant createdDate;
+    private Integer likeCount=0;
 }
