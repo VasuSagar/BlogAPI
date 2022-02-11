@@ -1,5 +1,6 @@
 # blogAPI
-A simple blog post api made with spring,mysql.Following tutorial by @FadatareRamesh(Java Guides)
+A simple blog post api made with spring,mysql.Following tutorial by @FadatareRamesh(Java Guides)\
+Frontend server(made using Angular) can be found here [Blog](https://github.com/VasuSagar/Blog)
 
 # Intro #
 A Blog API with functionalities listed below
