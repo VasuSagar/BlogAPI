@@ -7,6 +7,7 @@ import com.neon.blog.exception.ResourceNotFoundException;
 import com.neon.blog.model.Comment;
 import com.neon.blog.model.Post;
 import com.neon.blog.repository.PostRepository;
+import com.neon.blog.service.AuthService;
 import com.neon.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
+    private AuthService authService;
 
     @Override
     public PostDto createPost(PostDto postDto) {
@@ -112,6 +115,9 @@ public class PostServiceImpl implements PostService {
         postDto1.setDescription(post1.getDescription());
         postDto1.setContent(post1.getContent());
         postDto1.setTitle(post1.getTitle());
+        postDto1.setCreatedDate(post1.getCreatedDate());
+        postDto1.setUserName(post1.getUser().getName());
+        postDto1.setUserId(post1.getUser().getId());
 
         Set<Comment> comments= post1.getComments();
 
@@ -125,6 +131,9 @@ public class PostServiceImpl implements PostService {
         CommentDto commentDto=new CommentDto();
         commentDto.setBody(comment.getBody());
         commentDto.setId(comment.getId());
+        commentDto.setCreatedDate(comment.getCreatedDate());
+        commentDto.setUserId(comment.getUser().getId());
+        commentDto.setUserName(comment.getUser().getName());
 
         return commentDto;
     }
@@ -135,6 +144,8 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
         post.setDescription(postDto.getDescription());
+        post.setUser(authService.getCurrentUser());
+        post.setCreatedDate(Instant.now());
         return post;
     }
 

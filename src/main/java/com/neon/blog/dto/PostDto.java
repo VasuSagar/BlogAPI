@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.util.Set;
 
 @Data
@@ -22,5 +23,9 @@ public class PostDto {
     @NotEmpty(message = "description must not be empty")
     @Size(min=5,message = "description should have at least 5 characters")
     private String description;
+
     private Set<CommentDto> comments;
+    private Instant createdDate;
+    private String userName;
+    private Long userId;
 }

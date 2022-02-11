@@ -7,11 +7,13 @@ import com.neon.blog.model.Comment;
 import com.neon.blog.model.Post;
 import com.neon.blog.repository.CommentRepository;
 import com.neon.blog.repository.PostRepository;
+import com.neon.blog.service.AuthService;
 import com.neon.blog.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
     private PostRepository postRepository;
+    private AuthService authService;
 
     @Override
     public CommentDto createComment(Long postId, CommentDto commentDto) {
@@ -60,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto updateComment(Long postId, Long commentId, CommentDto commentDto) {
         //get post if no posts exists then throw exception
-        Post post=findPost(postId);
+        findPost(postId);
 
         //get comment if no comment exists then throw exception
         Comment comment=findComment(commentId);
@@ -112,6 +115,10 @@ public class CommentServiceImpl implements CommentService {
         CommentDto commentDto=new CommentDto();
         commentDto.setId(comment.getId());
         commentDto.setBody(comment.getBody());
+        commentDto.setUserId(comment.getUser().getId());
+        commentDto.setUserName(comment.getUser().getName());
+        commentDto.setCreatedDate(comment.getCreatedDate());
+
         return commentDto;
     }
 
@@ -119,6 +126,9 @@ public class CommentServiceImpl implements CommentService {
         //convert DTO to entity
         Comment comment=new Comment();
         comment.setBody(commentDto.getBody());
+        comment.setUser(authService.getCurrentUser());
+        comment.setCreatedDate(Instant.now());
+
         return comment;
     }
 }
