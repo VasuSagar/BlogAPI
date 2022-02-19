@@ -9,6 +9,7 @@ import com.neon.blog.model.Comment;
 import com.neon.blog.model.Like;
 import com.neon.blog.model.Post;
 import com.neon.blog.repository.PostRepository;
+import com.neon.blog.repository.UserRepository;
 import com.neon.blog.service.AuthService;
 import com.neon.blog.service.PostService;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
     private AuthService authService;
+    private UserRepository userRepository;
 
     @Override
     public PostDto createPost(PostDto postDto) {
@@ -43,14 +45,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir, Long userId) {
         //create Sort object
         Sort sort=createSortObject(sortDir,sortBy);
 
         //create pagable instance
         Pageable pageable= PageRequest.of(pageNo,pageSize, sort);
+        Page<Post> posts;
+        //return all posts if userId is default(0l)
+        if(userId==0){
+            posts=postRepository.findAll(pageable);
+        }
+        else{
+            //check if user exists
+            userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User","id",userId));
+            posts=postRepository.findAllByUserId(pageable,userId);
+        }
 
-        Page<Post> posts=postRepository.findAll(pageable);
 
         //get content for page object
         List<Post> postList=posts.getContent();

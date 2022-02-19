@@ -6,7 +6,7 @@ import com.neon.blog.dto.PostResponse;
 public interface PostService {
     PostDto createPost(PostDto postDto);
 
-    PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
+    PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir, Long userId);
 
     PostDto getPostById(Long postId);
 

@@ -30,8 +30,9 @@ public class PostController {
             @RequestParam(value = "pageNo",defaultValue = AppConstraints.DEFAULT_PAGE_NUMBER) int pageNo,
             @RequestParam(value = "pageSize",defaultValue =AppConstraints.DEFAULT_PAGE_SIZE) int pageSize,
             @RequestParam(value = "sortBy",defaultValue = AppConstraints.DEFAULT_SORT_BY) String sortBy,
-            @RequestParam(value = "sortDir",defaultValue = AppConstraints.DEFAULT_SORT_DIRECTION)String sortDir){
-        return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize,sortBy,sortDir),HttpStatus.OK);
+            @RequestParam(value = "sortDir",defaultValue = AppConstraints.DEFAULT_SORT_DIRECTION)String sortDir,
+            @RequestParam(value = "userId",defaultValue =AppConstraints.DEFAULT_USER) Long userId){
+        return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize,sortBy,sortDir,userId),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
