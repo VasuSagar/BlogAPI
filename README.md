@@ -13,7 +13,7 @@ A Blog API with functionalities listed below
 - [x] Use JWT based authentication
 - [ ] Document REST API using swagger
 - [ ] Use any of mapper(mapStruct,modelMapper,JMapper)
-- [ ] Add Like functionality to Post
+- [x] Add Like functionality to Post
 
 # Technologies Used #
 * Java 11 
