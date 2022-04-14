@@ -11,8 +11,8 @@ A Blog API with functionalities listed below
 - [x] REST API Request Validation
 - [x] Add Spring Security and create role based authentication
 - [x] Use JWT based authentication
-- [ ] Document REST API using swagger
-- [ ] Use any of mapper(mapStruct,modelMapper,JMapper)
+- [x] Document REST API using swagger
+- [x] Use any of mapper(mapStruct,modelMapper,JMapper)
 - [x] Add Like functionality to Post
 
 # Technologies Used #
